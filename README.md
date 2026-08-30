@@ -4,8 +4,6 @@
 
 [产品案例](docs/product-case.md) · [助理与专业部门](docs/assistant-and-departments.md) · [系统架构](docs/architecture.md) · [Skill 与连接器](docs/skills-and-connectors.md) · [验证记录](docs/verification.md)
 
-![AUREVAN 金融智能助理](assets/aurevan-financial-assistant.jpg)
-
 ## 产品截图
 
 以下界面使用脱敏演示数据，不包含真实交易账号、持仓或模型密钥。
