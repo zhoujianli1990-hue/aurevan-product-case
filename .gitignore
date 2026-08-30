@@ -1,0 +1,12 @@
+.DS_Store
+.idea/
+.vscode/
+*.log
+*.db
+*.sqlite*
+.env
+.env.*
+*secret*
+*token*
+*api_key*
+

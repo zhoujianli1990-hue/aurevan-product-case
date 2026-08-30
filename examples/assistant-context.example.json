@@ -1,0 +1,35 @@
+{
+  "question": "我的加元盈利降低了，什么情况？",
+  "active_view": {
+    "tool": "forex_spot",
+    "account": "demo_bank_account",
+    "symbol": "CAD"
+  },
+  "data_freshness": {
+    "status": "fresh",
+    "captured_at": "2026-08-30T09:30:00+08:00"
+  },
+  "position": {
+    "currency": "CAD",
+    "quantity": 5.0,
+    "cost_basis_cny_per_100": 481.0,
+    "current_bank_bid_cny_per_100": 482.0,
+    "unrealized_pnl_cny": 0.05
+  },
+  "tool_conclusion": {
+    "direction": "observe",
+    "summary": "短期汇率回落，持仓数量未变化"
+  },
+  "allowed_model_facts": [
+    "position",
+    "tool_conclusion",
+    "data_freshness"
+  ],
+  "excluded_fields": [
+    "account_number",
+    "terminal_id",
+    "api_key",
+    "private_notes"
+  ]
+}
+
