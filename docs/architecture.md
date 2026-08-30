@@ -1,5 +1,7 @@
 # 系统架构
 
+产品层采用“一个助理 + 多个专业分析部门”的组织方式；本页说明其技术实现。完整产品职责见 [助理与专业分析部门架构](assistant-and-departments.md)。
+
 ## 总体结构
 
 ```mermaid
@@ -14,13 +16,15 @@ flowchart TB
 
     subgraph CORE["AUREVAN 核心"]
         ROUTER["意图识别与能力路由"]
+        SKILL["Skill 任务编排"]
         CONTEXT["统一上下文构建"]
         WATCH["持续盯守与状态机"]
         SCHED["报告与定时任务"]
         AUTH["授权边界"]
     end
 
-    subgraph DEPTS["专业分析部门"]
+    subgraph CONNECTORS["连接器与专业分析部门"]
+        CONTRACT["统一工具契约"]
         FOREX["外汇实盘分析"]
         MT["MT4 / MT5 Bridge"]
         MARGIN["外汇保证金分析（建设中）"]
@@ -33,18 +37,31 @@ flowchart TB
     end
 
     UX <--> CORE
+    ROUTER --> SKILL
     ROUTER --> CONTEXT
-    CONTEXT <--> FOREX
-    CONTEXT <--> MT
-    MARGIN -. "完成后按同一契约接入" .-> CONTEXT
+    SKILL --> CONTEXT
+    CONTEXT <--> CONTRACT
+    CONTRACT <--> FOREX
+    CONTRACT <--> MT
+    MARGIN -. "完成后按同一契约接入" .-> CONTRACT
     CONTEXT <--> LOCAL
     CONTEXT <--> LLM
-    WATCH <--> DEPTS
+    WATCH <--> CONTRACT
     SCHED --> WATCH
     AUTH --> SCHED
     LOCAL <--> DB
     WATCH <--> DB
 ```
+
+## 分层职责
+
+| 层 | 职责 | 不负责 |
+| --- | --- | --- |
+| AUREVAN | 理解目标、选择路径、维护上下文、交付统一结论 | 不直接伪造工具事实 |
+| Skill | 定义任务步骤、触发条件、权限和输出 | 不保存经纪商或工具专有实现 |
+| 连接器 | 调用外部工具、归一字段、暴露健康与时效 | 不替用户做最终判断 |
+| 专业工具 | 生产领域数据和专业分析结论 | 不各自成为面向用户的独立助理 |
+| 模型 | 解释、归因、比较与综合分析 | 不计算或修改真实账户数据 |
 
 ## 核心原则
 
@@ -62,7 +79,11 @@ flowchart TB
 
 ### 专业部门隔离
 
-专业工具随应用发布，但继续在独立进程与模块中运行。AUREVAN 通过适配器和 MCP 获取标准化结果，不把工具业务代码复制到对话核心。
+专业工具属于同一主项目并随应用发布，但继续在独立进程、模块和数据目录中运行。AUREVAN 通过适配器和 MCP 获取标准化结果，不把工具业务代码复制到对话核心，专业部门也不能直接读写 AUREVAN 主库。
+
+### Skill 与连接器解耦
+
+Skill 只依赖统一工具契约，不直接依赖某个工具的原始字段和接口。一个 Skill 可以组合多个连接器，同一个连接器也可以被对话、报告、提醒和多个 Skill 复用。
 
 ### 本地数据边界
 
