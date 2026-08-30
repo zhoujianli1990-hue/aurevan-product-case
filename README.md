@@ -6,6 +6,18 @@
 
 ![AUREVAN 金融智能助理](assets/aurevan-financial-assistant.jpg)
 
+## 产品截图
+
+以下界面使用脱敏演示数据，不包含真实交易账号、持仓或模型密钥。
+
+### 1. 助理对话与全域态势
+
+![AUREVAN 助理对话与全域态势](assets/screenshots/01-assistant-command-center.jpg)
+
+### 2. Skill 与连接器
+
+![AUREVAN Skill 与连接器](assets/screenshots/02-skills-connectors.jpg)
+
 ## 30 秒看懂这个项目
 
 | 维度 | 已完成的代表性能力 |
